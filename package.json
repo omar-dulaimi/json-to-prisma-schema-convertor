@@ -1,0 +1,44 @@
+{
+  "name": "json-to-prisma-schema-convertor",
+  "version": "0.0.0-rc.1",
+  "description": "Converts a json schema to a Prisma schema",
+  "repository": "https://github.com/omar-dulaimi/json-to-prisma-schema-convertor",
+  "bin": {
+    "json-to-prisma-schema-convertor": "lib/index.js"
+  },
+  "scripts": {
+    "dev": "npm run clean && npm run build && node lib/index.js",
+    "build": "tsc",
+    "clean": "rm -rf lib",
+    "package:publish": "./package.sh && cd package && npm publish"
+  },
+  "author": {
+    "name": "Omar Dulaimi",
+    "url": "https://github.com/omar-dulaimi"
+  },
+  "keywords": [
+    "json-schema",
+    "prisma-schema",
+    "json-to-prisma-schema-convertor",
+    "prisma"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "tslib": "^2.3.1"
+  },
+  "dependencies": {
+    "prettier": "^2.6.2",
+    "ts-morph": "^14.0.0",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@types/prettier": "^2.4.4",
+    "typescript": "^4.6.2"
+  },
+  "bugs": {
+    "url": "https://github.com/omar-dulaimi/json-to-prisma-schema-convertor/issues"
+  },
+  "homepage": "https://github.com/omar-dulaimi/json-to-prisma-schema-convertor#readme",
+  "private": true
+}
