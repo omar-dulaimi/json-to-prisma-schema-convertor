@@ -34,13 +34,13 @@ Using yarn:
 
 ```json
 {
-    "scripts": {
-      "json-to-prisma": "json-to-prisma-schema-convertor --schema='./schema/schema.json'"
-    }
+  "scripts": {
+    "json-to-prisma": "json-to-prisma-schema-convertor convert --inputPath='./prisma/schema.json' --outputPath='./prisma/schema.prisma'"
+  }
 }
 ```
 
-2- Running `npm run json-to-prisma` or `npx json-to-prisma-schema-convertor  --schema='./schema/schema.json'` for the following JSON schema
+2- Running `npm run json-to-prisma` or `npx json-to-prisma-schema-convertor convert --inputPath='./prisma/schema.json' --outputPath='./prisma/schema.prisma'` for the following JSON schema
 
 ```json
 {
@@ -144,22 +144,40 @@ Using yarn:
 will generate the following Prisma schema
 
 ```prisma
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Post {
+  id   Int
+  user User?
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model User {
+  id          Int
+  createdAt   DateTime
+  email       String
+  weight      Int?
+  is18        Boolean?
+  name        String?
+  successor   User?
+  predecessor User?
+  role        UserRole @default(USER)
+  posts       Post[]
+  keywords    String[]
+  biography   Json?
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
 ```
+
+# Available Options
+
+- outputPath: string - path of the Json schema to convert
+
+  - alias: `op`
+  - required
+
+- inputPath: string - path of the prisma schema to be generated
+
+  - alias: `ip`
+  - required
