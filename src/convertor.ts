@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import path from 'path';
 import { Printer } from './printer';
 import { Transformer } from './transformer';
@@ -23,7 +23,6 @@ const exec = async () => {
 
   const printer = new Printer(transformer);
   await printer.print();
-  await writeFile('./models.json', JSON.stringify(transformer.getModels));
 };
 
 exec();
