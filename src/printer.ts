@@ -12,16 +12,30 @@ const generateEnum = (property: Property, name: string) => {
   );
 };
 
+const withRequiredProperty = (property: Property) => {
+  return property.isRequired ? '' : '?';
+};
+
+const withListProperty = (property: Property, propertyStr: string) => {
+  return property.isList ? `${propertyStr}[]` : propertyStr;
+};
+
 const getModelPropertyType = (property: Property, model: Model) => {
   switch (property.type) {
     case 'integer':
     case 'number':
-      return property.isList ? 'Int[]' : 'Int';
+      return `Int${withListProperty(property, withRequiredProperty(property))}`;
     case 'boolean':
-      return property.isList ? 'Boolean[]' : 'Boolean';
+      return `Boolean${withListProperty(
+        property,
+        withRequiredProperty(property),
+      )}`;
 
     case 'string':
-      return property.isList ? 'String[]' : 'String';
+      return `String${withListProperty(
+        property,
+        withRequiredProperty(property),
+      )}`;
 
     case 'enum':
       const enumName =
@@ -30,7 +44,10 @@ const getModelPropertyType = (property: Property, model: Model) => {
       return enumName;
 
     default:
-      return property.isList ? `${property.type}[]` : property.type;
+      return `${property.type}${withListProperty(
+        property,
+        withRequiredProperty(property),
+      )}`;
   }
 };
 export class Printer {
