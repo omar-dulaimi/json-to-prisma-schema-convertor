@@ -104,6 +104,11 @@ export class Transformer {
         }
       }
 
+      if (propValue?.$ref) {
+        fieldType = propValue?.['$ref']?.split('/')[2];
+        isRelation = true;
+      }
+
       if (typeof fieldType !== 'string') {
         fieldType = propValue?.type;
       }
