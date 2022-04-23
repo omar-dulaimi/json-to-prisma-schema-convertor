@@ -1,16 +1,17 @@
+import chalk from 'chalk';
 import { readFile } from 'fs/promises';
-import path from 'path';
 import { Printer } from './printer';
 import { Transformer } from './transformer';
 import { JSONSchema7DefinitionCustom } from './types';
 
-const exec = async () => {
-  const schemaFile = await readFile(
-    path.join(__dirname, '..', 'schema', 'schema.json'),
-    {
-      encoding: 'utf-8',
-    },
-  );
+export default async function convertor(
+  jsonSchemaPath: string,
+  outputPrismaSchemaPath: string,
+) {
+  console.log(chalk.green.bold(`Using json schema at: ${jsonSchemaPath}`));
+  const schemaFile = await readFile(jsonSchemaPath, {
+    encoding: 'utf-8',
+  });
   const schema = JSON.parse(schemaFile);
   const transformer = new Transformer(schema as JSONSchema7DefinitionCustom);
   transformer.prepareModelsNames();
@@ -21,8 +22,7 @@ const exec = async () => {
     ),
   );
 
-  const printer = new Printer(transformer);
+  const printer = new Printer(transformer, outputPrismaSchemaPath);
+  console.log(chalk.green.bold(`Outputting prisma schema to: ${outputPrismaSchemaPath}`));
   await printer.print();
-};
-
-exec();
+}

@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { writeFile } from 'fs/promises';
 import { EOL } from 'os';
 import { sortPrismaSchema } from 'prisma-schema-sorter';
@@ -34,8 +35,10 @@ const getModelPropertyType = (property: Property, model: Model) => {
 };
 export class Printer {
   private transformer: Transformer;
-  constructor(transformer: Transformer) {
+  private outputPath: string;
+  constructor(transformer: Transformer, outputPath: string) {
     this.transformer = transformer;
+    this.outputPath = outputPath;
   }
 
   printModel(model: Model): string {
@@ -61,7 +64,8 @@ export class Printer {
         .join(EOL)
         .replace(/(\r?\n\s*){3,}/g, EOL + EOL) + EOL;
 
-    await writeFile('./schema.prisma', stringSchema);
-    await sortPrismaSchema('./schema.prisma');
+    await writeFile(this.outputPath, stringSchema);
+    console.log(chalk.green.bold('Sorting generated prisma schema'));
+    await sortPrismaSchema(this.outputPath);
   }
 }
