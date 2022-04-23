@@ -1,5 +1,6 @@
 import { writeFile } from 'fs/promises';
 import { EOL } from 'os';
+import { sortPrismaSchema } from 'prisma-schema-sorter';
 import { Transformer } from './transformer';
 import { Model, Property } from './types';
 
@@ -61,5 +62,6 @@ export class Printer {
         .replace(/(\r?\n\s*){3,}/g, EOL + EOL) + EOL;
 
     await writeFile('./schema.prisma', stringSchema);
+    await sortPrismaSchema('./schema.prisma');
   }
 }
