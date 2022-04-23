@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
+import { Printer } from './printer';
 import { Transformer } from './transformer';
 import { JSONSchema7DefinitionCustom } from './types';
 
@@ -11,16 +12,18 @@ const exec = async () => {
     },
   );
   const schema = JSON.parse(schemaFile);
-  const obj = new Transformer(schema as JSONSchema7DefinitionCustom);
-  obj.prepareModelsNames();
-  obj.getModelsNames.forEach((model: string) =>
-    obj.transformModel(
+  const transformer = new Transformer(schema as JSONSchema7DefinitionCustom);
+  transformer.prepareModelsNames();
+  transformer.getModelsNames.forEach((model: string) =>
+    transformer.transformModel(
       model,
-      obj.getJsonSchema.definitions?.[model]?.properties,
+      transformer.getJsonSchema.definitions?.[model]?.properties,
     ),
   );
 
-  await writeFile('./models.json', JSON.stringify(obj.getModels));
+  const printer = new Printer(transformer);
+  await printer.print();
+  await writeFile('./models.json', JSON.stringify(transformer.getModels));
 };
 
 exec();
