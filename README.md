@@ -7,6 +7,12 @@
 
 Convert your [JSON](https://json-schema.org) schema to an approximate [Prisma](https://github.com/prisma/prisma) Schema.
 
+<p align="center">
+  <a href="https://www.buymeacoffee.com/omardulaimi">
+    <img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" height="41" width="174">
+  </a>
+</p>
+
 ## Table of Contents
 
 - [Installation](#installing)
